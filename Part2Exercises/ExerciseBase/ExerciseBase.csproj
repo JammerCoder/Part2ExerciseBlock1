@@ -38,6 +38,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BookInfoCompanion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BookInfoCompanion\BookInfoCompanion\bin\Debug\BookInfoCompanion.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -60,7 +64,10 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Page2.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Page3.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Default.aspx.cs">
@@ -79,6 +86,13 @@
     </Compile>
     <Compile Include="Page2.aspx.designer.cs">
       <DependentUpon>Page2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Page3.aspx.cs">
+      <DependentUpon>Page3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Page3.aspx.designer.cs">
+      <DependentUpon>Page3.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

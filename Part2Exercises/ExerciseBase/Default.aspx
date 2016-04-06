@@ -12,7 +12,8 @@
         <table width="400px" align="center">
                 <tr valign="top">
                     <td align="left">                        
-                        <asp:HyperLink ID="hypPage2" runat="server" Text="Page 2 >>"/>
+                        <asp:HyperLink ID="hypPage2" runat="server" Text="Page 2 >>"/> <br />
+                        <asp:HyperLink ID="hypPage3" runat="server" Text="To Book Listing"/>
                     </td>
                     <td align="left">                                                
                     </td>

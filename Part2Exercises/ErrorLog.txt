@@ -1,0 +1,6 @@
+ERROR INBooksConstructoron4/6/2016 8:03:14 PM: String was not recognized as a valid Boolean.
+ERROR INBooksConstructoron4/6/2016 8:15:22 PM: CreatedDate
+ERROR INBooksConstructoron4/6/2016 8:19:33 PM: CreatedDate
+ERROR INBooksConstructoron4/6/2016 8:22:52 PM: CreatedDate
+ERROR INBooksConstructoron4/6/2016 8:34:47 PM: CreatedDate
+ERROR INBooksConstructoron4/6/2016 8:59:38 PM: CreatedDate
