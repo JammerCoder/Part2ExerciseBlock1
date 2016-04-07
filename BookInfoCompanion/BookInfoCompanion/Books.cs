@@ -7,16 +7,17 @@ using System.Data.SqlClient;
 namespace BookInfoCompanion
 {
     public class Books : Dictionary<int, BookInfoCompanion.Books.Book>
-    {        
+    {
         public Books()
         {
-            
+
         }
 
         public Books(string sCnxn, string sLogPath)
         {
             try
             {
+                #region Code Block Can be Refactored
                 //Instantiating new connection object
                 SqlConnection oCnxn = new SqlConnection(sCnxn);
 
@@ -25,21 +26,22 @@ namespace BookInfoCompanion
                 SqlCommand oCmd = new SqlCommand();
                 oCmd.Connection = oCnxn;
                 oCmd.CommandText = "spBookInfoFetchAll";
+                #endregion
 
                 oCnxn.Open();
                 SqlDataReader oReader = oCmd.ExecuteReader();
 
                 while (oReader.Read())
                 {
-                    Book oNewBook = new Book();                    
+                    Book oNewBook = new Book();
                     oNewBook.BookTitle = oReader["BookTitle"].ToString();
                     oNewBook.AuthorName = oReader["AuthorName"].ToString();
                     oNewBook.Length = Convert.ToInt32(oReader["Length"]);
-                    oNewBook.IsOnAmazon = Convert.ToBoolean(oReader["IsOnAmazon"]);                    
+                    oNewBook.IsOnAmazon = Convert.ToBoolean(oReader["IsOnAmazon"]);
                     oNewBook.BookID = Convert.ToInt32(oReader["BookID"]);
-                    oNewBook.DateCreated = oReader["DateCreated"].ToString();                    
+                    oNewBook.DateCreated = oReader["DateCreated"].ToString();
 
-                    if(!this.ContainsKey(oNewBook.BookID))
+                    if (!this.ContainsKey(oNewBook.BookID))
                         this.Add(oNewBook.BookID, oNewBook);
                 }
                 oCnxn.Close();
@@ -51,15 +53,55 @@ namespace BookInfoCompanion
             }
         }
 
+        public Books(string sCnxn, int iBookID, string sLogPath)
+        {
+             try
+            {
+                #region Code Block Can be Refactored
+                //Instantiating new connection object
+                SqlConnection oCnxn = new SqlConnection(sCnxn);
 
+                //Instantiating Sql Command Object 
+                //Requires the Connection Information above and CommandText
+                SqlCommand oCmd = new SqlCommand();
+                oCmd.Connection = oCnxn;
+                oCmd.CommandText = "spBookInfoSearchByBookID @BookID";
+                oCmd.Parameters.AddWithValue("@BookID", iBookID);
+                #endregion
+
+                oCnxn.Open();
+                SqlDataReader oReader = oCmd.ExecuteReader();
+
+                while (oReader.Read())
+                {
+                    Book oNewBook = new Book();
+                    oNewBook.BookTitle = oReader["BookTitle"].ToString();
+                    oNewBook.AuthorName = oReader["AuthorName"].ToString();
+                    oNewBook.Length = Convert.ToInt32(oReader["Length"]);
+                    oNewBook.IsOnAmazon = Convert.ToBoolean(oReader["IsOnAmazon"]);
+                    oNewBook.BookID = Convert.ToInt32(oReader["BookID"]);
+                    oNewBook.DateCreated = oReader["DateCreated"].ToString();
+
+                    if (!this.ContainsKey(oNewBook.BookID))
+                        this.Add(oNewBook.BookID, oNewBook);
+                }
+                oCnxn.Close();
+            }
+            catch (Exception ex)
+            {
+                Log oLog = new Log();
+                oLog.LogError("BooksSearchByIDConstructor", ex.Message, sLogPath);
+            }
+        }
 
         public DataTable BooksList(string sCnxn, string sLogPath)
-        {            
+        {
             try
             {
                 List<Book> oBooks = new List<Book>();
                 Dictionary<int, Book> oBooksNew = new Dictionary<int, Book>();
 
+                #region Code Block Can be Refactored
                 /*Moved from BookList*/
                 //Instantiating new connection object
                 SqlConnection oCnxn = new SqlConnection(sCnxn);
@@ -69,6 +111,7 @@ namespace BookInfoCompanion
                 SqlCommand oCmd = new SqlCommand();
                 oCmd.Connection = oCnxn;
                 oCmd.CommandText = "spBookInfoFetchAll";
+                #endregion
 
                 //Instantiating new DataTable
                 DataTable dtBookInfo = new DataTable();
@@ -176,7 +219,7 @@ namespace BookInfoCompanion
             }
 
             #endregion Properties
-            
+
         }
     }
 }

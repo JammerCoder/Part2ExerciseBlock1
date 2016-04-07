@@ -10,6 +10,7 @@ namespace ExerciseBase
     public class Global : System.Web.HttpApplication
     {
         public static int WorldID = 0;
+        public static int BookID = 0;
 
         protected void Application_Start(object sender, EventArgs e)
         {

@@ -13,8 +13,8 @@ namespace ExerciseBase
         {
             try
             {
-                Global.WorldID = 23456;
-                Cache["TeamName"] = "ChicagoCubs";
+                //Global.WorldID = 23456;
+                //Cache["TeamName"] = "ChicagoCubs";
 
                 this.hypPage2.NavigateUrl = "~/Page2.aspx?ID=65";
                 this.hypPage3.NavigateUrl = "~/Page3.aspx";
@@ -22,6 +22,12 @@ namespace ExerciseBase
             catch
             {                
             }
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            Global.BookID = Convert.ToInt32(this.txtBookID.Text);            
+            Response.Redirect("Page3.aspx");
         }
     }
 }

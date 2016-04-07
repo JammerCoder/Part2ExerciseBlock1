@@ -20,14 +20,14 @@ namespace ExerciseBase
                 #region Refactored Area
                  
                 #endregion 
-
                 
+                int iBookID = Global.BookID;
                 
                 //Populating connection string
                 string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
                 string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
-                Books oBooks = new Books(sCnxn, sLogPath);                
+                Books oBooks = new Books(sCnxn, iBookID, sLogPath);                
  
                 this.dgBookInfo.DataSource = oBooks.Values;
                 this.dgBookInfo.DataBind();
