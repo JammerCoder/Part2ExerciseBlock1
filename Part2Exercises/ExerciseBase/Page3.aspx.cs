@@ -27,10 +27,10 @@ namespace ExerciseBase
                 string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
                 string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
-                Books oBooks = new Books(sCnxn, iBookID, sLogPath);                
+                Books oBooks = new Books(sCnxn, iBookID, sLogPath);                   
  
-                this.dgBookInfo.DataSource = oBooks.Values;
-                this.dgBookInfo.DataBind();
+                //this.dgBookInfo.DataSource = oBooks.Values;
+                //this.dgBookInfo.DataBind();
                 
 
             }

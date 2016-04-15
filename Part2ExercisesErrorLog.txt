@@ -3,3 +3,8 @@ ERROR INBooksSearchByIDConstructoron4/7/2016 10:02:03 AM: Procedure or function 
 ERROR INBooksSearchByIDConstructoron4/7/2016 10:09:17 AM: Procedure or function 'spBookInfoSearchByBookID' expects parameter '@BookID', which was not supplied.
 ERROR INBooksSearchByIDConstructoron4/7/2016 10:13:14 AM: Procedure or function 'spBookInfoSearchByBookID' expects parameter '@BookID', which was not supplied.
 ERROR INBooksSearchByIDConstructoron4/7/2016 10:16:38 AM: Procedure or function 'spBookInfoSearchByBookID' expects parameter '@BookID', which was not supplied.
+ERROR INBooksSearchByIDConstructoron4/13/2016 12:39:59 AM: Invalid attempt to read when no data is present.
+ERROR INBooksSearchByIDConstructoron4/15/2016 7:09:21 AM: Invalid object name 'tblBookList'.
+ERROR INBooksSearchByIDConstructoron4/15/2016 7:58:40 AM: Invalid object name 'tblBookList'.
+ERROR INBooksSearchByIDConstructoron4/15/2016 7:58:44 AM: Invalid object name 'tblBookList'.
+ERROR INBooksSearchByIDConstructoron4/15/2016 8:00:05 AM: Invalid object name 'tblBookList'.
