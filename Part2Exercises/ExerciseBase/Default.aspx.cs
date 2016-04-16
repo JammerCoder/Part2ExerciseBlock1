@@ -51,6 +51,7 @@ namespace ExerciseBase
                         this.chkIsOnAmazon.Checked = true;
                     else
                         this.chkIsOnAmazon.Checked = false;
+                    
                     //this.dgBookInfo.DataSource = oBooks.Values;
                     //this.dgBookInfo.DataBind();
 
@@ -73,6 +74,49 @@ namespace ExerciseBase
             }
 
                 
+        }
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+            string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+            
+            Book oBook = new Book();
+
+            oBook.BookID = 0;
+            oBook.BookTitle = this.txtBookTitle.Text;
+            oBook.AuthorName = this.txtAuthorsName.Text;
+            oBook.Length = Convert.ToInt32(this.txtLength.Text);
+            //oBook.DateCreated = this.txtDateCreated.Text;
+            if(this.chkIsOnAmazon.Checked == true)
+                oBook.IsOnAmazon = true;
+            else
+                oBook.IsOnAmazon = false;
+
+            oBook.Save(sCnxn, sLogPath);
+
+            this.btnNew.Enabled = true;
+            this.btnSave.Enabled = false;
+
+            Books oBooks = new Books(sCnxn, sLogPath);
+            this.dgBookInfo.DataSource = oBooks.Values;
+            this.dgBookInfo.DataBind();
+
+            
+        }
+
+        protected void btnNew_Click(object sender, EventArgs e)
+        {
+            this.txtBookID.Text = "AutoNumber...";
+            this.txtBookID.Enabled = false;
+            this.txtBookTitle.Text = "";
+            this.txtAuthorsName.Text = "";
+            this.txtLength.Text = "";
+            this.txtDateCreated.Enabled = false;
+            this.chkIsOnAmazon.Checked = false;
+            this.txtBookTitle.Focus();
+            this.btnSave.Enabled = true;
+            this.btnNew.Enabled = false;
         }
     }
 }

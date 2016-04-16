@@ -8,3 +8,8 @@ ERROR INBooksSearchByIDConstructoron4/15/2016 7:09:21 AM: Invalid object name 't
 ERROR INBooksSearchByIDConstructoron4/15/2016 7:58:40 AM: Invalid object name 'tblBookList'.
 ERROR INBooksSearchByIDConstructoron4/15/2016 7:58:44 AM: Invalid object name 'tblBookList'.
 ERROR INBooksSearchByIDConstructoron4/15/2016 8:00:05 AM: Invalid object name 'tblBookList'.
+ERROR INBookSavingConstructoron4/16/2016 6:55:16 AM: Incorrect syntax near '@BookTitle'.
+ERROR INBookSavingConstructoron4/16/2016 7:40:49 AM: Procedure or function 'spBookInfoSave' expects parameter '@BookTitle', which was not supplied.
+ERROR INBookSavingConstructoron4/16/2016 8:34:22 AM: Incorrect syntax near '@BookID'.
+ERROR INBookSavingConstructoron4/16/2016 8:34:29 AM: Incorrect syntax near '@BookID'.
+ERROR INBookSavingConstructoron4/16/2016 8:36:07 AM: Could not find stored procedure 'spBookInfoSave @BookTitle  @AuthorName  @Length  @IsOnAmazon '.

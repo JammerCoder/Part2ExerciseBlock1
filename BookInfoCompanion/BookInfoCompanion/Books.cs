@@ -6,13 +6,14 @@ using System.Data.SqlClient;
 
 namespace BookInfoCompanion
 {
-    public class Books : Dictionary<int, BookInfoCompanion.Books.Book>
+    public class Books : Dictionary<int, Book>
     {
         public Books()
         {
 
         }
 
+        //Fetch All Books
         public Books(string sCnxn, string sLogPath)
         {
             try
@@ -42,20 +43,21 @@ namespace BookInfoCompanion
                     oNewBook.DateCreated = oReader["DateCreated"].ToString();
 
                     if (!this.ContainsKey(oNewBook.BookID))
-                        this.Add(oNewBook.BookID, oNewBook);
+                        this.Add(oNewBook.BookID, oNewBook); //Add to the Dictionary 
                 }
                 oCnxn.Close();
             }
             catch (Exception ex)
             {
                 Log oLog = new Log();
-                oLog.LogError("BooksConstructor", ex.Message, sLogPath);
+                oLog.LogError("BooksFetchAll", ex.Message, sLogPath);
             }
         }
 
-        public Books(string sCnxn, int iBookID, string sLogPath)
+        //Search Books By ID
+        public Books(string sCnxn, int iBookID, string sLogPath)  
         {
-             try
+            try
             {
                 #region Code Block Can be Refactored
                 //Instantiating new connection object
@@ -71,7 +73,7 @@ namespace BookInfoCompanion
 
                 oCnxn.Open();
                 SqlDataReader oReader = oCmd.ExecuteReader();
-
+                
                 while (oReader.Read())
                 {
                     Book oNewBook = new Book();
@@ -79,7 +81,7 @@ namespace BookInfoCompanion
                     oNewBook.AuthorName = oReader["AuthorName"].ToString();
                     oNewBook.Length = Convert.ToInt32(oReader["Length"]);
                     oNewBook.IsOnAmazon = Convert.ToBoolean(oReader["IsOnAmazon"]);
-                    oNewBook.BookID = Convert.ToInt32(oReader["BookID"]);
+                    oNewBook.BookID = Convert.ToInt32(oReader["BookID"]);                    
                     oNewBook.DateCreated = oReader["DateCreated"].ToString();
 
                     if (!this.ContainsKey(oNewBook.BookID))
@@ -94,6 +96,8 @@ namespace BookInfoCompanion
             }
         }
 
+                       
+        //Fetch All Books - returned in a DataTable 
         public DataTable BooksList(string sCnxn, string sLogPath)
         {
             try
@@ -134,92 +138,134 @@ namespace BookInfoCompanion
                 return (null);
             }
         }
+                
+    }
 
-        public class Book
+    public class Book
+    {
+        #region Properties
+
+        private int _BookID;
+        private string _BookTitle;
+        private string _AuthorName;
+        private int _Length;
+        private bool _IsOnAmazon; 
+        private string _DateCreated;
+
+        public int BookID
         {
-            #region Properties
-
-            private int _BookID;
-            private string _BookTitle;
-            private string _AuthorName;
-            private int _Length;
-            private bool _IsOnAmazon;
-            private string _DateCreated;
-
-            public int BookID
+            get
             {
-                get
-                {
-                    return (_BookID);
-                }
-                set
-                {
-                    _BookID = value;
-                }
+                return (_BookID);
             }
-
-            public string BookTitle
+            set
             {
-                get
-                {
-                    return (_BookTitle);
-                }
-                set
-                {
-                    _BookTitle = value;
-                }
+                _BookID = value;
             }
+        }
 
-            public string AuthorName
+        public string BookTitle
+        {
+            get
             {
-                get
-                {
-                    return (_AuthorName);
-                }
-                set
-                {
-                    _AuthorName = value;
-                }
+                return (_BookTitle);
             }
-
-            public int Length
+            set
             {
-                get
-                {
-                    return (_Length);
-                }
-                set
-                {
-                    _Length = value;
-                }
+                _BookTitle = value;
             }
+        }
 
-            public bool IsOnAmazon
+        public string AuthorName
+        {
+            get
             {
-                get
-                {
-                    return (_IsOnAmazon);
-                }
-                set
-                {
-                    _IsOnAmazon = value;
-                }
+                return (_AuthorName);
             }
-
-            public string DateCreated
+            set
             {
-                get
-                {
-                    return (_DateCreated);
-                }
-                set
-                {
-                    _DateCreated = value;
-                }
+                _AuthorName = value;
             }
+        }
 
-            #endregion Properties
+        public int Length
+        {
+            get
+            {
+                return (_Length);
+            }
+            set
+            {
+                _Length = value;
+            }
+        }
 
+        public bool IsOnAmazon
+        {
+            get
+            {
+                return (_IsOnAmazon);
+            }
+            set
+            {
+                _IsOnAmazon = value;
+            }
+        }
+
+        public string DateCreated
+        {
+            get
+            {
+                return (_DateCreated);
+            }
+            set
+            {
+                _DateCreated = value;
+            }
+        }
+        #endregion Properties
+
+        public Book()
+        {
+
+        }
+
+        public void Save(string sCnxn, string sLogPath)
+        {
+            try
+            {
+                #region Code Block Can be Refactored
+                //Instantiating new connection object
+                SqlConnection oCnxn = new SqlConnection(sCnxn);
+
+                //Instantiating Sql Command Object 
+                //Requires the Connection Information above and CommandText
+                SqlCommand oCmd = new SqlCommand();
+                oCmd.Connection = oCnxn;
+
+                oCmd.CommandType = CommandType.StoredProcedure;
+                oCmd.CommandText = "spBookInfoSave";
+                oCmd.Parameters.AddWithValue("@BookID", BookID);
+                //oCmd.CommandText += " @BookTitle ";
+                oCmd.Parameters.AddWithValue("@BookTitle", BookTitle);
+                //oCmd.CommandText += " @AuthorName ";
+                oCmd.Parameters.AddWithValue("@AuthorName", AuthorName);
+                //oCmd.CommandText += " @Length ";
+                oCmd.Parameters.AddWithValue("@Length", Length);
+                //oCmd.Parameters.AddWithValue("@DateCreated", DateCreated);
+                //oCmd.CommandText += " @IsOnAmazon ";
+                oCmd.Parameters.AddWithValue("@IsOnAmazon", IsOnAmazon);
+                #endregion
+
+                oCnxn.Open();
+                oCmd.ExecuteNonQuery();
+                oCnxn.Close();
+            }
+            catch (Exception ex)
+            {
+                Log oLog = new Log();
+                oLog.LogError("BookSavingConstructor", ex.Message, sLogPath);
+            }
         }
     }
 }
