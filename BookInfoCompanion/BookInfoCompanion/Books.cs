@@ -54,7 +54,7 @@ namespace BookInfoCompanion
             }
         }
 
-        //Search Books By ID
+        //Ex.12.b Fetch ONE book record by ID
         public Books(string sCnxn, int iBookID, string sLogPath)  
         {
             try
@@ -230,6 +230,7 @@ namespace BookInfoCompanion
 
         }
 
+        //Ex.12.c Save Function to save all properties of the object
         public void Save(string sCnxn, string sLogPath)
         {
             try
@@ -242,21 +243,16 @@ namespace BookInfoCompanion
                 //Requires the Connection Information above and CommandText
                 SqlCommand oCmd = new SqlCommand();
                 oCmd.Connection = oCnxn;
+                #endregion
 
                 oCmd.CommandType = CommandType.StoredProcedure;
                 oCmd.CommandText = "spBookInfoSave";
                 oCmd.Parameters.AddWithValue("@BookID", BookID);
-                //oCmd.CommandText += " @BookTitle ";
                 oCmd.Parameters.AddWithValue("@BookTitle", BookTitle);
-                //oCmd.CommandText += " @AuthorName ";
                 oCmd.Parameters.AddWithValue("@AuthorName", AuthorName);
-                //oCmd.CommandText += " @Length ";
                 oCmd.Parameters.AddWithValue("@Length", Length);
-                //oCmd.Parameters.AddWithValue("@DateCreated", DateCreated);
-                //oCmd.CommandText += " @IsOnAmazon ";
                 oCmd.Parameters.AddWithValue("@IsOnAmazon", IsOnAmazon);
-                #endregion
-
+                
                 oCnxn.Open();
                 oCmd.ExecuteNonQuery();
                 oCnxn.Close();
