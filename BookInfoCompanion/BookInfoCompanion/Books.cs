@@ -246,7 +246,6 @@ namespace BookInfoCompanion
                 oCmd.Connection = oCnxn;
                 #endregion
 
-                oCmd.CommandType = CommandType.StoredProcedure;
                 oCmd.CommandText = "spBookInfoSave";
                 oCmd.Parameters.AddWithValue("@BookID", BookID);
                 oCmd.Parameters.AddWithValue("@BookTitle", BookTitle);
@@ -255,21 +254,23 @@ namespace BookInfoCompanion
                 oCmd.Parameters.AddWithValue("@IsOnAmazon", IsOnAmazon);
                 
                 oCnxn.Open();
-                oCmd.ExecuteNonQuery();
+                oCmd.ExecuteNonQuery();                
                 oCnxn.Close();
-
-                string sReturnMessage = "<b>Book ID: </b>" + BookID + "<br />" +
+                                
+                /*string sReturnMessage = "<b>Book ID: </b>" + BookID + "<br />" +
                     "<b>Book Title: </b>" + BookTitle + "<br />" +
                     "<b>Author's Name: </b>" + AuthorName + "<br />" +
                     "<b>Length: </b>" + Length + "<br />" + 
                     "<b>Date Created: </b>" + DateCreated + "<br />";
 
+
                 if (IsOnAmazon)
                     sReturnMessage += "<b>Remarks: </b> The Book is on Amazon <br />";
                 else
                     sReturnMessage += "<b>Remarks: </b> The Book is not on Amazon <br />";
+                */
 
-                return sReturnMessage;
+                return "Record Successfully Saved!";
 
             }
             catch (Exception ex)

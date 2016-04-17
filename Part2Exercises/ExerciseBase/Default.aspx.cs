@@ -109,7 +109,7 @@ namespace ExerciseBase
                 oBook.IsOnAmazon = false;
 
             
-            this.litSearchResult.Text = "";
+            this.litSearchResult.Text = oBook.Save(sCnxn,sLogPath);
 
             this.btnNew.Enabled = true;
             this.btnSave.Enabled = false;
