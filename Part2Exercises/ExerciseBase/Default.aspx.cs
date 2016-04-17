@@ -43,18 +43,33 @@ namespace ExerciseBase
 
                 if (oBooks.ContainsKey(Convert.ToInt32(this.txtBookID.Text)))
                 {
+                    this.litSearchResult.Text = "";
+                    this.litSearchResult.Text += "<b>Book ID: </b>" + this.txtBookID.Text + "<br />";
+                    this.litSearchResult.Text += "<b>Book Title: </b>" + oBooks[Convert.ToInt32(this.txtBookID.Text)].BookTitle.ToString() + "<br />";
+                    this.litSearchResult.Text += "<b>Author's Name: </b>" + oBooks[Convert.ToInt32(this.txtBookID.Text)].AuthorName.ToString() + "<br />";
+                    this.litSearchResult.Text += "<b>Length: </b>" + oBooks[Convert.ToInt32(this.txtBookID.Text)].Length.ToString() + "<br />";
+                    this.litSearchResult.Text += "<b>Date Created: </b>" + oBooks[Convert.ToInt32(this.txtBookID.Text)].DateCreated.ToString() + "<br />";
+
                     this.txtBookTitle.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].BookTitle.ToString();
                     this.txtAuthorsName.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].AuthorName.ToString();
                     this.txtLength.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].Length.ToString();
                     this.txtDateCreated.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].DateCreated.ToString();
-                    if (oBooks[Convert.ToInt32(this.txtBookID.Text)].IsOnAmazon.ToString().ToUpper() == "TRUE")
+
+                    if (oBooks[Convert.ToInt32(this.txtBookID.Text)].IsOnAmazon.ToString().ToUpper() == "TRUE") 
+                    {
+                        this.litSearchResult.Text += "<b>Remarks: </b> The Book is on Amazon <br />";
                         this.chkIsOnAmazon.Checked = true;
+                    }
                     else
+                    {
+                        this.litSearchResult.Text += "<b>Remarks: </b> The Book is not on Amazon <br />";
                         this.chkIsOnAmazon.Checked = false;
-                    
+                    }
+                        
                     //this.dgBookInfo.DataSource = oBooks.Values;
                     //this.dgBookInfo.DataBind();
 
+                    this.txtBookID.Text = "";
                     this.lblErrorMessage.Text = "";
                 }
                 else
@@ -93,14 +108,18 @@ namespace ExerciseBase
             else
                 oBook.IsOnAmazon = false;
 
-            this.lblErrorMessage.Text = oBook.Save(sCnxn, sLogPath);
+            
+            this.litSearchResult.Text = "";
 
             this.btnNew.Enabled = true;
             this.btnSave.Enabled = false;
+            this.txtBookID.Enabled = true;
+            this.txtBookID.Text = "";
+            this.txtDateCreated.Enabled = true;
 
-            //Books oBooks = new Books(sCnxn, sLogPath);
-            //this.dgBookInfo.DataSource = oBooks.Values;
-            //this.dgBookInfo.DataBind();
+            Books oBooks = new Books(sCnxn, sLogPath);
+            this.dgBookInfo.DataSource = oBooks.Values;
+            this.dgBookInfo.DataBind();
 
             
         }
@@ -112,6 +131,7 @@ namespace ExerciseBase
             this.txtBookTitle.Text = "";
             this.txtAuthorsName.Text = "";
             this.txtLength.Text = "";
+            this.txtDateCreated.Text = "AutoDate fill... ";
             this.txtDateCreated.Enabled = false;
             this.chkIsOnAmazon.Checked = false;
             this.txtBookTitle.Focus();
