@@ -93,14 +93,14 @@ namespace ExerciseBase
             else
                 oBook.IsOnAmazon = false;
 
-            oBook.Save(sCnxn, sLogPath);
+            this.lblErrorMessage.Text = oBook.Save(sCnxn, sLogPath);
 
             this.btnNew.Enabled = true;
             this.btnSave.Enabled = false;
 
-            Books oBooks = new Books(sCnxn, sLogPath);
-            this.dgBookInfo.DataSource = oBooks.Values;
-            this.dgBookInfo.DataBind();
+            //Books oBooks = new Books(sCnxn, sLogPath);
+            //this.dgBookInfo.DataSource = oBooks.Values;
+            //this.dgBookInfo.DataBind();
 
             
         }

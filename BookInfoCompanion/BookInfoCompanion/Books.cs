@@ -231,8 +231,9 @@ namespace BookInfoCompanion
         }
 
         //Ex.12.c Save Function to save all properties of the object
-        public void Save(string sCnxn, string sLogPath)
-        {
+        public string Save(string sCnxn, string sLogPath)
+        {            
+
             try
             {
                 #region Code Block Can be Refactored
@@ -256,11 +257,14 @@ namespace BookInfoCompanion
                 oCnxn.Open();
                 oCmd.ExecuteNonQuery();
                 oCnxn.Close();
+
+                return "Saved Successfully!";
             }
             catch (Exception ex)
             {
                 Log oLog = new Log();
                 oLog.LogError("BookSavingConstructor", ex.Message, sLogPath);
+                return "Record not saved!";
             }
         }
     }
