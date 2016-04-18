@@ -96,6 +96,48 @@ namespace BookInfoCompanion
             }
         }
 
+        //Exercise 16
+        public Books(string sCnxn, string sBookTitleSearch, string sLogPath)
+        {
+            try
+            {
+                #region Code Block Can be Refactored
+                //Instantiating new connection object
+                SqlConnection oCnxn = new SqlConnection(sCnxn);
+
+                //Instantiating Sql Command Object 
+                //Requires the Connection Information above and CommandText
+                SqlCommand oCmd = new SqlCommand();
+                oCmd.Connection = oCnxn;
+                oCmd.CommandText = "spBookInfoSearchOnBookTitle @BookTitle";
+                oCmd.Parameters.AddWithValue("@BookTitle", sBookTitleSearch);
+                #endregion
+
+                oCnxn.Open();
+                SqlDataReader oReader = oCmd.ExecuteReader();
+
+                while (oReader.Read())
+                {
+                    Book oNewBook = new Book();
+                    oNewBook.BookTitle = oReader["BookTitle"].ToString();
+                    oNewBook.AuthorName = oReader["AuthorName"].ToString();
+                    oNewBook.Length = Convert.ToInt32(oReader["Length"]);
+                    oNewBook.IsOnAmazon = Convert.ToBoolean(oReader["IsOnAmazon"]);
+                    oNewBook.BookID = Convert.ToInt32(oReader["BookID"]);
+                    oNewBook.DateCreated = oReader["DateCreated"].ToString();
+
+                    if (!this.ContainsKey(oNewBook.BookID))
+                        this.Add(oNewBook.BookID, oNewBook);
+                }
+                oCnxn.Close();
+            }
+            catch (Exception ex)
+            {
+                Log oLog = new Log();
+                oLog.LogError("BooksSearchByIDConstructor", ex.Message, sLogPath);
+            }
+        }
+
                        
         //Fetch All Books - returned in a DataTable 
         public DataTable BooksList(string sCnxn, string sLogPath)

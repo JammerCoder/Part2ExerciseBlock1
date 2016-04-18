@@ -22,11 +22,11 @@ namespace ExerciseBase
                 //this.hypPage3.NavigateUrl = "~/Page3.aspx";
             }
             catch
-            {                
+            {
             }
         }
 
-        protected void btnSearch_Click(object sender, EventArgs e)
+        protected void btnSearchID_Click(object sender, EventArgs e)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace ExerciseBase
                     this.txtLength.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].Length.ToString();
                     this.txtDateCreated.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].DateCreated.ToString();
 
-                    if (oBooks[Convert.ToInt32(this.txtBookID.Text)].IsOnAmazon.ToString().ToUpper() == "TRUE") 
+                    if (oBooks[Convert.ToInt32(this.txtBookID.Text)].IsOnAmazon.ToString().ToUpper() == "TRUE")
                     {
                         this.litSearchResult.Text += "<b>Remarks: </b> The Book is on Amazon <br />";
                         this.chkIsOnAmazon.Checked = true;
@@ -65,7 +65,7 @@ namespace ExerciseBase
                         this.litSearchResult.Text += "<b>Remarks: </b> The Book is not on Amazon <br />";
                         this.chkIsOnAmazon.Checked = false;
                     }
-                        
+
                     //this.dgBookInfo.DataSource = oBooks.Values;
                     //this.dgBookInfo.DataBind();
 
@@ -88,40 +88,47 @@ namespace ExerciseBase
                 this.lblErrorMessage.Text = ex.Message;
             }
 
-                
+
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
-            string sLogPath = ConfigurationManager.AppSettings["LogPath"];
-            
-            Book oBook = new Book();
+            try
+            {
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
-            oBook.BookID = 0;
-            oBook.BookTitle = this.txtBookTitle.Text;
-            oBook.AuthorName = this.txtAuthorsName.Text;
-            oBook.Length = Convert.ToInt32(this.txtLength.Text);
-            //oBook.DateCreated = this.txtDateCreated.Text;
-            if(this.chkIsOnAmazon.Checked == true)
-                oBook.IsOnAmazon = true;
-            else
-                oBook.IsOnAmazon = false;
+                Book oBook = new Book();
 
-            
-            this.litSearchResult.Text = oBook.Save(sCnxn,sLogPath);
+                oBook.BookID = 0;
+                oBook.BookTitle = this.txtBookTitle.Text;
+                oBook.AuthorName = this.txtAuthorsName.Text;
+                oBook.Length = Convert.ToInt32(this.txtLength.Text);
+                //oBook.DateCreated = this.txtDateCreated.Text;
+                if (this.chkIsOnAmazon.Checked == true)
+                    oBook.IsOnAmazon = true;
+                else
+                    oBook.IsOnAmazon = false;
 
-            this.btnNew.Enabled = true;
-            this.btnSave.Enabled = false;
-            this.txtBookID.Enabled = true;
-            this.txtBookID.Text = "";
-            this.txtDateCreated.Enabled = true;
 
-            Books oBooks = new Books(sCnxn, sLogPath);
-            this.dgBookInfo.DataSource = oBooks.Values;
-            this.dgBookInfo.DataBind();
+                this.litSearchResult.Text = oBook.Save(sCnxn, sLogPath);
 
-            
+                this.btnNew.Enabled = true;
+                this.btnSave.Enabled = false;
+                this.txtBookID.Enabled = true;
+                this.txtBookID.Text = "";
+                this.txtDateCreated.Enabled = true;
+
+                Books oBooks = new Books(sCnxn, sLogPath);
+                this.grdBookInfo.DataSource = oBooks.Values;
+                this.grdBookInfo.DataBind();
+
+            }
+            catch (Exception ex)
+            {
+                this.lblErrorMessage.Text = ex.Message;
+            }
+
         }
 
         protected void btnNew_Click(object sender, EventArgs e)
@@ -137,6 +144,45 @@ namespace ExerciseBase
             this.txtBookTitle.Focus();
             this.btnSave.Enabled = true;
             this.btnNew.Enabled = false;
+        }
+
+        protected void btnSearchTitle_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sBookTitle = this.txtBookTitle.Text;
+
+                //Populating connection string
+                string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                string sLogPath = ConfigurationManager.AppSettings["LogPath"];
+
+                Books oBooks = new Books(sCnxn, sBookTitle, sLogPath);
+
+                if (oBooks.Count()>0)
+                {
+                    this.litSearchResult.Text = "";
+
+                    this.grdBookInfo.DataSource = oBooks.Values;
+                    this.grdBookInfo.DataBind();
+                }
+                else
+                {
+                    this.grdBookInfo.DataSource = oBooks.Values;
+                    this.grdBookInfo.DataBind();
+
+                    this.txtBookTitle.Text = "";
+                    this.txtAuthorsName.Text = "";
+                    this.txtLength.Text = "";
+                    this.txtDateCreated.Text = "";
+                    this.chkIsOnAmazon.Checked = false;
+
+                    this.lblErrorMessage.Text = "Book not Found!";
+                }
+            }
+            catch (Exception ex)
+            {
+                this.lblErrorMessage.Text = ex.Message;
+            }        
         }
     }
 }
