@@ -8,6 +8,34 @@ namespace BookInfoCompanion
 {
     public class Books : Dictionary<int, Book>
     {
+        private decimal _TotalPrice;
+        private decimal _AveragePrice;
+        public decimal TotalPrice
+        {
+            get
+            {
+                return (_TotalPrice);
+            }
+
+            set
+            {
+                _TotalPrice = value;
+            }
+        }
+
+        public decimal AveragePrice
+        {
+            get
+            {
+                return (_AveragePrice);
+            }
+
+            set
+            {
+                _AveragePrice = value;
+            }
+        }
+
         public Books()
         {
 
@@ -29,6 +57,9 @@ namespace BookInfoCompanion
                 oCmd.CommandText = "spBookInfoFetchAll";
                 #endregion
 
+                TotalPrice = 0;
+                int iRecCount = 0;
+
                 oCnxn.Open();
                 SqlDataReader oReader = oCmd.ExecuteReader();
 
@@ -41,10 +72,17 @@ namespace BookInfoCompanion
                     oNewBook.IsOnAmazon = Convert.ToBoolean(oReader["IsOnAmazon"]);
                     oNewBook.BookID = Convert.ToInt32(oReader["BookID"]);
                     oNewBook.DateCreated = oReader["DateCreated"].ToString();
+                    oNewBook.SellingPrice = Convert.ToDecimal(oReader["SellingPrice"]);
 
                     if (!this.ContainsKey(oNewBook.BookID))
                         this.Add(oNewBook.BookID, oNewBook); //Add to the Dictionary 
+
+                    TotalPrice += oNewBook.SellingPrice;
+                    iRecCount++;
                 }
+
+                AveragePrice = TotalPrice / iRecCount ;
+
                 oCnxn.Close();
             }
             catch (Exception ex)
@@ -71,6 +109,9 @@ namespace BookInfoCompanion
                 oCmd.Parameters.AddWithValue("@BookID", iBookID);
                 #endregion
 
+                TotalPrice = 0;
+                int iRecCount = 0 ;
+
                 oCnxn.Open();
                 SqlDataReader oReader = oCmd.ExecuteReader();
                 
@@ -83,10 +124,17 @@ namespace BookInfoCompanion
                     oNewBook.IsOnAmazon = Convert.ToBoolean(oReader["IsOnAmazon"]);
                     oNewBook.BookID = Convert.ToInt32(oReader["BookID"]);                    
                     oNewBook.DateCreated = oReader["DateCreated"].ToString();
+                    oNewBook.SellingPrice = Convert.ToDecimal(oReader["SellingPrice"]);
 
                     if (!this.ContainsKey(oNewBook.BookID))
                         this.Add(oNewBook.BookID, oNewBook);
+
+                    TotalPrice += oNewBook.SellingPrice;
+                    iRecCount++;
                 }
+
+                AveragePrice = TotalPrice / iRecCount;
+
                 oCnxn.Close();
             }
             catch (Exception ex)
@@ -113,6 +161,9 @@ namespace BookInfoCompanion
                 oCmd.Parameters.AddWithValue("@BookTitle", sBookTitleSearch);
                 #endregion
 
+                TotalPrice = 0;
+                int iRecCount = 0;
+
                 oCnxn.Open();
                 SqlDataReader oReader = oCmd.ExecuteReader();
 
@@ -125,16 +176,25 @@ namespace BookInfoCompanion
                     oNewBook.IsOnAmazon = Convert.ToBoolean(oReader["IsOnAmazon"]);
                     oNewBook.BookID = Convert.ToInt32(oReader["BookID"]);
                     oNewBook.DateCreated = oReader["DateCreated"].ToString();
+                    oNewBook.SellingPrice = Convert.ToDecimal(oReader["SellingPrice"]);
 
                     if (!this.ContainsKey(oNewBook.BookID))
                         this.Add(oNewBook.BookID, oNewBook);
+
+                    TotalPrice += oNewBook.SellingPrice;
+                    iRecCount++;
                 }
+
+                AveragePrice = TotalPrice / iRecCount ;
+
                 oCnxn.Close();
+
+                
             }
             catch (Exception ex)
             {
                 Log oLog = new Log();
-                oLog.LogError("BooksSearchByIDConstructor", ex.Message, sLogPath);
+                oLog.LogError("BooksSearchByTitleConstructor", ex.Message, sLogPath);
             }
         }
 
@@ -192,8 +252,9 @@ namespace BookInfoCompanion
         private string _AuthorName;
         private int _Length;
         private bool _IsOnAmazon; 
-        private string _DateCreated;
-
+        private string _DateCreated;        
+        private decimal _SellingPrice;
+                
         public int BookID
         {
             get
@@ -265,6 +326,19 @@ namespace BookInfoCompanion
                 _DateCreated = value;
             }
         }
+
+        public decimal SellingPrice
+        {
+            get
+            {
+                return (_SellingPrice);
+            }
+            set
+            {
+                _SellingPrice = value;
+            }
+        }
+        
         #endregion Properties
 
         public Book()
@@ -274,8 +348,7 @@ namespace BookInfoCompanion
 
         //Ex.12.c Save Function to save all properties of the object
         public string Save(string sCnxn, string sLogPath)
-        {            
-
+        {      
             try
             {
                 #region Code Block Can be Refactored
@@ -294,7 +367,8 @@ namespace BookInfoCompanion
                 oCmd.Parameters.AddWithValue("@AuthorName", AuthorName);
                 oCmd.Parameters.AddWithValue("@Length", Length);
                 oCmd.Parameters.AddWithValue("@IsOnAmazon", IsOnAmazon);
-                
+                oCmd.Parameters.AddWithValue("@SellingPrice", SellingPrice);
+
                 oCnxn.Open();
                 oCmd.ExecuteNonQuery();                
                 oCnxn.Close();

@@ -21,8 +21,9 @@ namespace ExerciseBase
                 //this.hypPage2.NavigateUrl = "~/Page2.aspx?ID=65";
                 //this.hypPage3.NavigateUrl = "~/Page3.aspx";
             }
-            catch
+            catch (Exception ex)
             {
+                lblErrorMessage.Text = ex.Message;
             }
         }
 
@@ -49,11 +50,13 @@ namespace ExerciseBase
                     this.litSearchResult.Text += "<b>Author's Name: </b>" + oBooks[Convert.ToInt32(this.txtBookID.Text)].AuthorName.ToString() + "<br />";
                     this.litSearchResult.Text += "<b>Length: </b>" + oBooks[Convert.ToInt32(this.txtBookID.Text)].Length.ToString() + "<br />";
                     this.litSearchResult.Text += "<b>Date Created: </b>" + oBooks[Convert.ToInt32(this.txtBookID.Text)].DateCreated.ToString() + "<br />";
+                    this.litSearchResult.Text += "<b>Selling Price: </b>" + oBooks[Convert.ToInt32(this.txtBookID.Text)].SellingPrice.ToString() + "<br />";
 
                     this.txtBookTitle.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].BookTitle.ToString();
                     this.txtAuthorsName.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].AuthorName.ToString();
                     this.txtLength.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].Length.ToString();
                     this.txtDateCreated.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].DateCreated.ToString();
+                    this.txtSellingPrice.Text = oBooks[Convert.ToInt32(this.txtBookID.Text)].SellingPrice.ToString();
 
                     if (oBooks[Convert.ToInt32(this.txtBookID.Text)].IsOnAmazon.ToString().ToUpper() == "TRUE")
                     {
@@ -86,6 +89,13 @@ namespace ExerciseBase
             catch (Exception ex)
             {
                 this.lblErrorMessage.Text = ex.Message;
+
+                this.txtBookTitle.Text = "";
+                this.txtAuthorsName.Text = "";
+                this.txtLength.Text = "";
+                this.txtDateCreated.Text = "";
+                this.chkIsOnAmazon.Checked = false;
+                this.litSearchResult.Text = "";
             }
 
 
@@ -104,6 +114,7 @@ namespace ExerciseBase
                 oBook.BookTitle = this.txtBookTitle.Text;
                 oBook.AuthorName = this.txtAuthorsName.Text;
                 oBook.Length = Convert.ToInt32(this.txtLength.Text);
+                oBook.SellingPrice = Convert.ToDecimal(this.txtSellingPrice);
                 //oBook.DateCreated = this.txtDateCreated.Text;
                 if (this.chkIsOnAmazon.Checked == true)
                     oBook.IsOnAmazon = true;
@@ -140,6 +151,7 @@ namespace ExerciseBase
             this.txtLength.Text = "";
             this.txtDateCreated.Text = "AutoDate fill... ";
             this.txtDateCreated.Enabled = false;
+            this.txtSellingPrice.Text = "";
             this.chkIsOnAmazon.Checked = false;
             this.txtBookTitle.Focus();
             this.btnSave.Enabled = true;
@@ -160,7 +172,8 @@ namespace ExerciseBase
 
                 if (oBooks.Count()>0)
                 {
-                    this.litSearchResult.Text = "";
+                    this.litSearchResult.Text = "<b>Total Price: </b>" + oBooks.TotalPrice.ToString() + "<br />";
+                    this.litSearchResult.Text += "<b>Average Price: </b>" + oBooks.AveragePrice.ToString() + "<br />";
 
                     this.grdBookInfo.DataSource = oBooks.Values;
                     this.grdBookInfo.DataBind();
@@ -174,6 +187,7 @@ namespace ExerciseBase
                     this.txtAuthorsName.Text = "";
                     this.txtLength.Text = "";
                     this.txtDateCreated.Text = "";
+                    this.txtSellingPrice.Text = "";
                     this.chkIsOnAmazon.Checked = false;
 
                     this.lblErrorMessage.Text = "Book not Found!";

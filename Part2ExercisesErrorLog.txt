@@ -14,3 +14,12 @@ ERROR INBookSavingConstructoron4/16/2016 8:34:22 AM: Incorrect syntax near '@Boo
 ERROR INBookSavingConstructoron4/16/2016 8:34:29 AM: Incorrect syntax near '@BookID'.
 ERROR INBookSavingConstructoron4/16/2016 8:36:07 AM: Could not find stored procedure 'spBookInfoSave @BookTitle  @AuthorName  @Length  @IsOnAmazon '.
 ERROR INBooksSearchByIDConstructoron4/18/2016 8:32:47 AM: Must declare the scalar variable "@BookTitle".
+ERROR INBooksSearchByIDConstructoron4/18/2016 6:56:22 PM: SellingPrice
+ERROR INBooksSearchByIDConstructoron4/18/2016 6:56:32 PM: SellingPrice
+ERROR INBooksSearchByIDConstructoron4/18/2016 6:56:47 PM: SellingPrice
+ERROR INBooksSearchByIDConstructoron4/18/2016 7:00:34 PM: SellingPrice
+ERROR INBooksSearchByIDConstructoron4/18/2016 7:01:01 PM: SellingPrice
+ERROR INBooksSearchByIDConstructoron4/18/2016 7:01:50 PM: SellingPrice
+ERROR INBooksSearchByIDConstructoron4/18/2016 7:06:23 PM: SellingPrice
+ERROR INBooksSearchByTitleConstructoron4/18/2016 7:06:35 PM: SellingPrice
+ERROR INBooksSearchByIDConstructoron4/18/2016 7:07:37 PM: SellingPrice
