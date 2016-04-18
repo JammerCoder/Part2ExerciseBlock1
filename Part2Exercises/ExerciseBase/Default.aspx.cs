@@ -15,11 +15,28 @@ namespace ExerciseBase
         {
             try
             {
+                #region History
                 //Global.WorldID = 23456;
                 //Cache["TeamName"] = "ChicagoCubs";
-
                 //this.hypPage2.NavigateUrl = "~/Page2.aspx?ID=65";
                 //this.hypPage3.NavigateUrl = "~/Page3.aspx";
+                #endregion History
+
+                List<string> oListItems = new List<string>();
+
+                oListItems.Add("Select 1");
+                oListItems.Add("Select 2");
+                oListItems.Add("Select 3");
+
+                this.chlCheckList.DataSource = oListItems;
+                this.chlCheckList.DataBind();
+
+                this.drdList.DataSource = oListItems;
+                this.drdList.DataBind();
+
+                this.rdoRadioList.DataSource = oListItems;
+                this.rdoRadioList.DataBind();
+
             }
             catch (Exception ex)
             {
@@ -197,6 +214,31 @@ namespace ExerciseBase
             {
                 this.lblErrorMessage.Text = ex.Message;
             }        
+        }
+
+        protected void calDefault_SelectionChanged(object sender, EventArgs e)
+        {
+            this.litEventMessage.Text = "Something Selected in the Calender Items!";
+        }
+
+        protected void drdList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.litEventMessage.Text = "Something Selected in DropDownList Items!";
+        }
+
+        protected void chlCheckList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.litEventMessage.Text = "Something Selected in CheckListBox Items!";
+        }
+
+        protected void rdoRadioList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.litEventMessage.Text = "Something Selected in RadioButtonListBox Items!";
+        }
+
+        protected void ibtnImageBtn_Click(object sender, ImageClickEventArgs e)
+        {
+            this.litEventMessage.Text = "The Image Button was pressed!";
         }
     }
 }
