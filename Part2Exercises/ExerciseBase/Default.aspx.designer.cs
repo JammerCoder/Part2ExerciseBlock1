@@ -58,6 +58,15 @@ namespace ExerciseBase {
         protected global::System.Web.UI.WebControls.Calendar calDefault;
         
         /// <summary>
+        /// lblMonth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMonth;
+        
+        /// <summary>
         /// drdList control.
         /// </summary>
         /// <remarks>

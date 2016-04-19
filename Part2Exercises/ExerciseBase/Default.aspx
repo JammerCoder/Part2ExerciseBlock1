@@ -17,7 +17,12 @@
                         <asp:Button ID="btnSearchID" runat="server" Text="Search" OnClick="btnSearchID_Click" />
                     </td>
                     <td align="left" rowspan="10">
-                        <asp:Calendar ID="calDefault" runat="server" OnSelectionChanged="calDefault_SelectionChanged" /><br />
+                        <asp:Calendar ID="calDefault" runat="server" OnSelectionChanged="calDefault_SelectionChanged" ondayrender="calDefault_DayRender">
+                            <NextPrevStyle ForeColor="#CCCCCC" />
+                            <SelectedDayStyle Font-Bold="True" ForeColor="Red" />                            
+                        </asp:Calendar>
+                        <br />
+                        <asp:Label ID="lblMonth" runat="server" Text=""/><br />
                         <asp:DropDownList ID="drdList" runat="server" OnSelectedIndexChanged="drdList_SelectedIndexChanged" /><br />
                         <asp:CheckBoxList ID="chlCheckList" runat="server" OnSelectedIndexChanged="chlCheckList_SelectedIndexChanged" /> <br />
                         <asp:RadioButtonList ID="rdoRadioList" runat="server" OnSelectedIndexChanged="rdoRadioList_SelectedIndexChanged" /><br />

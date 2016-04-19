@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -36,6 +38,28 @@ namespace ExerciseBase
 
                 this.rdoRadioList.DataSource = oListItems;
                 this.rdoRadioList.DataBind();
+
+                #region Month
+                int month = DateTime.Now.Month;
+                switch (month)
+                {
+                    case 1: this.lblMonth.Text = "January"; break;
+                    case 2: this.lblMonth.Text = "February"; break;
+                    case 3: this.lblMonth.Text = "March"; break;
+                    case 4: this.lblMonth.Text = "April"; break;
+                    case 5: this.lblMonth.Text = "May"; break;
+                    case 6: this.lblMonth.Text = "June"; break;
+                    case 7: this.lblMonth.Text = "July"; break;
+                    case 8: this.lblMonth.Text = "August"; break;
+                    case 9: this.lblMonth.Text = "September"; break;
+                    case 10: this.lblMonth.Text = "October"; break;
+                    case 11: this.lblMonth.Text = "November"; break;
+                    case 12: this.lblMonth.Text = "December"; break;
+                    default: this.lblMonth.Text = "Please select a month!"; break;
+                }
+                #endregion Month
+
+                //this.litSearchResult.Text = this.calDefault..ToString();                
 
             }
             catch (Exception ex)
@@ -218,7 +242,12 @@ namespace ExerciseBase
 
         protected void calDefault_SelectionChanged(object sender, EventArgs e)
         {
-            this.litEventMessage.Text = "Something Selected in the Calender Items!";
+            this.litEventMessage.Text = "<b>Date: <b/>" + this.calDefault.SelectedDate.Month.ToString()
+                + "/" + this.calDefault.SelectedDate.Day.ToString()
+                + "/" + this.calDefault.SelectedDate.Year.ToString()
+                + "<br /><b>Time: <b/>" + this.calDefault.SelectedDate.AddHours(10).Hour.ToString()
+                + "AM"
+                + "<br /> <b>Next Day: </b>" + this.calDefault.SelectedDate.AddDays(1).ToString();
         }
 
         protected void drdList_SelectedIndexChanged(object sender, EventArgs e)
@@ -239,6 +268,30 @@ namespace ExerciseBase
         protected void ibtnImageBtn_Click(object sender, ImageClickEventArgs e)
         {
             this.litEventMessage.Text = "The Image Button was pressed!";
+        }
+
+        protected void calDefault_DayRender(object sender, DayRenderEventArgs e)
+        {
+            Style weekEndStyle = new Style();
+            weekEndStyle.BackColor = Color.LightGray;
+
+            if (e.Day.IsWeekend)
+            {
+                e.Cell.ApplyStyle(weekEndStyle);
+                e.Day.IsSelectable = false;
+            }
+
+            if (e.Day.Date.CompareTo(DateTime.Today) == -1)
+            {
+                //e.Cell.ApplyStyle(beforeAfterToday);
+                e.Day.IsSelectable = false;
+            }
+
+            if (e.Day.Date.CompareTo(DateTime.Today) == 1)
+            {
+                //e.Cell.ApplyStyle(beforeAfterToday);
+                e.Day.IsSelectable = false;
+            }
         }
     }
 }
