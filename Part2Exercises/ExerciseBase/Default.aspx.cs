@@ -22,23 +22,14 @@ namespace ExerciseBase
                 //Cache["TeamName"] = "ChicagoCubs";
                 //this.hypPage2.NavigateUrl = "~/Page2.aspx?ID=65";
                 //this.hypPage3.NavigateUrl = "~/Page3.aspx";
+                /*
+                 * List<string> oListItems = new List<string>();
+                 * oListItems.Add("Select 1");
+                 * oListItems.Add("Select 2");
+                 * oListItems.Add("Select 3");
+                 */
                 #endregion History
-
-                List<string> oListItems = new List<string>();
-
-                oListItems.Add("Select 1");
-                oListItems.Add("Select 2");
-                oListItems.Add("Select 3");
-
-                this.chlCheckList.DataSource = oListItems;
-                this.chlCheckList.DataBind();
-
-                this.drdList.DataSource = oListItems;
-                this.drdList.DataBind();
-
-                this.rdoRadioList.DataSource = oListItems;
-                this.rdoRadioList.DataBind();
-
+                
                 #region Month
                 int month = DateTime.Now.Month;
                 switch (month)
@@ -60,7 +51,45 @@ namespace ExerciseBase
                 #endregion Month
 
                 //this.litSearchResult.Text = this.calDefault..ToString();                
+                if(!IsPostBack)
+                {
+                    string sCnxn = ConfigurationManager.AppSettings["Cnxn"];
+                    string sLogPath = ConfigurationManager.AppSettings["LogPath"];
 
+                    Books oBooks = new Books(sCnxn, sLogPath);
+
+                    this.drdList.DataSource = oBooks.Values;
+                    this.drdList.DataTextField = "BookTitle";
+                    this.drdList.DataValueField = "BookID";
+                    this.drdList.DataBind();
+                    this.drdList.Items.Insert(0, "-Select-");
+
+                    this.chlCheckList.DataSource = oBooks.Values;
+                    this.chlCheckList.DataTextField = "BookTitle";
+                    this.chlCheckList.DataValueField = "BookID";
+                    this.chlCheckList.DataBind();
+
+                    this.rdoRadioList.DataSource = oBooks.Values;
+                    this.rdoRadioList.DataTextField = "BookTitle";
+                    this.rdoRadioList.DataValueField = "BookID";
+                    this.rdoRadioList.DataBind();
+
+                    List<string> oSelectColor = new List<string>();
+                    oSelectColor.Add("-Select Color-");
+                    oSelectColor.Add("Red");
+                    oSelectColor.Add("Blue");
+                    oSelectColor.Add("Green");
+
+                    this.drdSelectColor.DataSource = oSelectColor;
+                    this.drdSelectColor.DataBind();
+
+                    this.litCustomMessage.Text = "Not PostBack!";
+                }
+                else
+                {
+                    this.litCustomMessage.Text = "Now this is PostBack!";
+                }
+                    
             }
             catch (Exception ex)
             {
@@ -281,7 +310,7 @@ namespace ExerciseBase
                 e.Day.IsSelectable = false;
             }
 
-            if (e.Day.Date.CompareTo(DateTime.Today) == -1)
+            /*if (e.Day.Date.CompareTo(DateTime.Today) == -1)
             {
                 //e.Cell.ApplyStyle(beforeAfterToday);
                 e.Day.IsSelectable = false;
@@ -291,7 +320,45 @@ namespace ExerciseBase
             {
                 //e.Cell.ApplyStyle(beforeAfterToday);
                 e.Day.IsSelectable = false;
+            }*/
+        }
+
+        protected void drdSelectColor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (this.drdSelectColor.SelectedItem.Value.ToString().ToUpper())
+            {
+                case "RED":
+                    List<string> oRedColorCheckList = new List<string>();
+                    oRedColorCheckList.Add("Stop Sign");
+                    oRedColorCheckList.Add("Firetruck");
+                    
+                    this.cblColorSelectItem.DataSource = oRedColorCheckList;                    
+                    this.cblColorSelectItem.DataBind();
+                    break;
+
+                case "BLUE":
+                    List<string> oBlueColorCheckList = new List<string>();
+                    oBlueColorCheckList.Add("Sky");
+                    oBlueColorCheckList.Add("Blueberry");
+
+                    this.cblColorSelectItem.DataSource = oBlueColorCheckList;
+                    this.cblColorSelectItem.DataBind();
+                    break;
+
+                case "GREEN":
+                    List<string> oGreenColorCheckList = new List<string>();
+                    oGreenColorCheckList.Add("Grass");
+                    oGreenColorCheckList.Add("Money");
+
+                    this.cblColorSelectItem.DataSource = oGreenColorCheckList;
+                    this.cblColorSelectItem.DataBind();
+                    break;
+
+                default:
+                    this.litCustomMessage.Text = "Nothing Selected!";
+                    break;
             }
+            
         }
     }
 }

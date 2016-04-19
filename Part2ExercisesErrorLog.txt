@@ -24,3 +24,7 @@ ERROR INBooksSearchByIDConstructoron4/18/2016 7:06:23 PM: SellingPrice
 ERROR INBooksSearchByTitleConstructoron4/18/2016 7:06:35 PM: SellingPrice
 ERROR INBooksSearchByIDConstructoron4/18/2016 7:07:37 PM: SellingPrice
 ERROR INBooksSearchByTitleConstructoron4/18/2016 10:29:17 PM: Attempted to divide by zero.
+ERROR INBooksFetchAllon4/19/2016 8:40:25 AM: SellingPrice
+ERROR INBooksFetchAllon4/19/2016 8:41:42 AM: SellingPrice
+ERROR INBooksFetchAllon4/19/2016 8:44:19 AM: SellingPrice
+ERROR INBooksFetchAllon4/19/2016 8:46:25 AM: SellingPrice
